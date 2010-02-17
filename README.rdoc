@@ -2,6 +2,24 @@
 
 Ruby fixed-width file handling for the masses.
 
+A simple example for writing fixed-width content to a text file:
+
+layout = FixedWidth::Layout.new [
+  FixedWidth::Column.new( :first_name, 20 ),
+  FixedWidth::Column.new( :last_name, 30 ),
+  FixedWidth::Column.new( :email, 40 )
+]
+
+file = File.new('out.txt', 'w')
+writer = FixedWidth::Writer.new( file, layout )
+writer.write(
+	:first_name => 'Leon',
+	:last_name => 'Nereg',
+	:email => 'nnereg@gmail.com'
+)
+file.close()
+
+
 == Note on Patches/Pull Requests
  
 * Fork the project.
