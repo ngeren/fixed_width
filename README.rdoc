@@ -1,6 +1,6 @@
 = fixed_width
 
-Description goes here.
+Ruby fixed-width file handling for the masses.
 
 == Note on Patches/Pull Requests
  
