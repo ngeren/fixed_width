@@ -1,7 +1,8 @@
 Ruby fixed-width file handling for the masses.
 
+Usage:
 
-A simple example for writing fixed-width content to a text file:
+Writing fixed-width content to a text file:
 
 layout = FixedWidth::Layout.new [
   FixedWidth::Column.new( :first_name, 20 ),
@@ -17,6 +18,63 @@ writer.write(
 	:email => 'nnereg@gmail.com'
 )
 file.close()
+
+
+Writing fixed-width content containing a header and footer to a text file:
+
+#define layouts
+header_layout = FixedWidth::Layout.new [
+	FixedWidth::Column.new( :date, 90 ),
+]
+
+body_layout = FixedWidth::Layout.new [
+	FixedWidth::Column.new( :first_name, 20 ),
+	FixedWidth::Column.new( :last_name, 30 ),
+  FixedWidth::Column.new( :email, 40 )
+]
+
+footer_layout = FixedWidth::Layout.new [
+	FixedWidth::Column.new( :records, 90 )
+]
+
+#create new file
+file = File.new('out.txt', 'w')
+
+#write header
+header_writer = FixedWidth::Writer.new( file, header_layout )
+header_writer.write( :date => Time.now.strftime('%Y-%m-%d') )
+
+#write body
+body_writer = FixedWidth::Writer.new( file, body_layout )
+body_writer.write(
+	:first_name => 'Leon',
+	:last_name => 'Nereg',
+	:email => 'nnereg@gmail.com'
+)
+
+#write footer
+footer_writer = FixedWidth::Writer.new( file, footer_layout )
+footer_writer.write( :records => '1' )
+file.close()
+
+
+Writing output into a string .. use a StringIO object:
+
+layout = FixedWidth::Layout.new [
+  FixedWidth::Column.new( :first_name, 20 ),
+  FixedWidth::Column.new( :last_name, 30 ),
+  FixedWidth::Column.new( :email, 40 )
+]
+
+out = StringIO.new()
+writer = FixedWidth::Writer.new( out, layout )
+writer.write( 
+	:first_name => 'Leon', 
+	:last_name => 'Nereg', 
+	:email => 'nnereg@gmail.com' 
+)
+
+puts out.string
 
 
 Note on Patches/Pull Requests
